@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Good Morning Wishes</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fff0c2, #ffd6e7, #d9f4ff);
+    color: #333;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 25px 10px;
+    background: linear-gradient(135deg, #ff9966, #ff5e62);
+    color: white;
+}
+
+header h1 {
+    margin: 5px;
+    font-size: 29px;
+}
+
+.container {
+    max-width: 650px;
+    margin: 22px auto;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px #00000012;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+button {
+    border: none;
+    background: #ff647c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.88;
+}
+
+.wish-card {
+    background: #fff8e8;
+    border: 1px solid #ffe0a6;
+    padding: 16px;
+    border-radius: 14px;
+    margin: 12px 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.wish-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px #00000012;
+}
+
+.wish-card h3 {
+    color: #e84f70;
+    margin-top: 0;
+}
+
+.message {
+    display: none;
+    white-space: pre-line;
+    line-height: 1.9;
+    background: #fff;
+    padding: 18px;
+    border-radius: 14px;
+    border: 2px dashed #ff9bb0;
+    text-align: center;
+    font-size: 17px;
+}
+
+.copy-btn {
+    background: #4776e6;
+    margin-top: 12px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌞 सुप्रभात संदेश 🌸</h1>
+    <p>अपने प्रियजनों को भेजें खूबसूरत Good Morning Wishes</p>
+</header>
+
+<div class="container">
+
+    <div class="box">
+        <h2>💐 अपना संदेश तैयार करें</h2>
+
+        <label for="personName">जिसे संदेश भेजना है, उसका नाम लिखें</label>
+        <input type="text" id="personName"
+               placeholder="जैसे: राहुल, पूजा, अमित">
+
+        <label for="wishType">शुभकामना का प्रकार चुनें</label>
+        <select id="wishType">
+            <option value="all">सभी शुभकामनाएँ</option>
+            <option value="simple">प्यारी सुप्रभात</option>
+            <option value="motivation">मोटिवेशनल</option>
+            <option value="blessing">ईश्वर के आशीर्वाद वाली</option>
+            <option value="short">छोटा और सुंदर संदेश</option>
+        </select>
+
+        <button onclick="generateWishes()">
+            ✨ शुभकामनाएँ तैयार करें
+        </button>
+    </div>
+
+    <div class="box" id="results" style="display:none">
+        <h2>🌷 आपके लिए तैयार संदेश</h2>
+        <p>जिस संदेश को देखना है, उस पर क्लिक करें।</p>
+        <div id="wishList"></div>
+    </div>
+
+    <div class="box" id="previewBox" style="display:none">
+        <h2>💌 आपका शुभकामना संदेश</h2>
+        <div class="message" id="message"></div>
+        <button class="copy-btn" onclick="copyMessage()">
+            📋 संदेश कॉपी करें
+        </button>
+        <button onclick="shareMessage()">
+            📲 WhatsApp पर शेयर करें
+        </button>
+    </div>
+
+</div>
+
+<footer>
+    🌸 खुश रहिए, मुस्कुराते रहिए 🌸<br>
+    Good Morning Wishes
+</footer>
+
+<script>
+const wishes = [
+    {
+        type: "simple",
+        title: "🌹 प्यारी सुप्रभात",
+        text: name =>
+`🌞🌹 सुप्रभात ${name} जी 🌹🌞
+
+हर सुबह एक नई उम्मीद लेकर आती है,
+हर किरण जीवन में खुशियाँ लाती है।
+
+आपका आज का दिन सुख, शांति और सफलता से भरा हो। 😊🙏
+
+🌺 आपका दिन शुभ एवं मंगलमय हो! 🌺`
+    },
+    {
+        type: "motivation",
+        title: "💪 मोटिवेशनल शुभकामना",
+        text: name =>
+`🌅 सुप्रभात ${name} जी 🌅
+
+हर नया दिन एक नया अवसर है,
+खुद को बेहतर बनाने का और अपने सपनों को पूरा करने का। ✨
+
+मुस्कुराते रहिए, खुश रहिए और आगे बढ़ते रहिए।
+
+💐 आपका दिन शुभ हो! 💐`
+    },
+    {
+        type: "blessing",
+        title: "🙏 आशीर्वाद वाली शुभकामना",
+        text: name =>
+`🌹🌞 शुभ प्रभात ${name} जी 🌞🌹
+
+ईश्वर से यही प्रार्थना है कि आपके जीवन में
+खुशियों की बहार हो,
+चेहरे पर हमेशा मुस्कान हो,
+और हर कदम पर सफलता आपके साथ हो। 🙏✨
+
+💐 आपका दिन मंगलमय हो! 💐`
+    },
+    {
+        type: "short",
+        title: "🌼 छोटा और सुंदर संदेश",
+        text: name =>
+`🌼 सुप्रभात ${name} जी 🌼
+
+नई सुबह, नई किरण,
+नई उम्मीद, नया विश्वास।
+
+आपका हर पल खुशियों से भरा हो
+और हर दिन बने खास। 🌸😊`
+    }
+];
+
+let currentMessage = "";
+
+function generateWishes() {
+    const name = document.getElementById("personName")
+        .value.trim();
+
+    const type = document.getElementById("wishType").value;
+
+    if (!name) {
+        alert("कृपया पहले नाम लिखें!");
+        document.getElementById("personName").focus();
+        return;
+    }
+
+    const filtered = type === "all"
+        ? wishes
+        : wishes.filter(w => w.type === type);
+
+    const list = document.getElementById("wishList");
+    list.innerHTML = "";
+
+    filtered.forEach((wish, index) => {
+        const card = document.createElement("div");
+        card.className = "wish-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = name + " जी — " + wish.title;
+
+        const detail = document.createElement("p");
+        detail.textContent = "पूरा संदेश देखने के लिए यहाँ क्लिक करें 👆";
+
+        card.appendChild(heading);
+        card.appendChild(detail);
+
+        card.onclick = () => showMessage(wish.text(name));
+
+        list.appendChild(card);
+    });
+
+    document.getElementById("results").style.display = "block";
+    document.getElementById("previewBox").style.display = "none";
+
+    document.getElementById("results").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function showMessage(text) {
+    currentMessage = text;
+
+    const box = document.getElementById("message");
+    box.textContent = text;
+    box.style.display = "block";
+
+    document.getElementById("previewBox").style.display = "block";
+    document.getElementById("previewBox").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+async function copyMessage() {
+    try {
+        await navigator.clipboard.writeText(currentMessage);
+        alert("✅ संदेश कॉपी हो गया! अब आप इसे कहीं भी भेज सकते हैं।");
+    } catch (error) {
+        const area = document.createElement("textarea");
+        area.value = currentMessage;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+        alert("✅ संदेश कॉपी हो गया!");
+    }
+}
+
+async function shareMessage() {
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: "Good Morning Wishes",
+                text: currentMessage
+            });
+        } catch (error) {
+            // यूज़र शेयर विंडो बंद कर सकता है।
+        }
+    } else {
+        window.open(
+            "https://wa.me/?text=" + encodeURIComponent(currentMessage),
+            "_blank"
+        );
+    }
+}
+</script>
+
+</body>
+</html>
